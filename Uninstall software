@@ -1,0 +1,11 @@
+$computerNames = @("Redington01", "Redington02", "Redington03")
+$appName = "AppName"
+$yourAccount = Get-Credential
+ForEach ($computerName in $computerNames) {
+    Invoke-Command -ComputerName $computerName -Credential $yourAccount -ScriptBlock {
+        Get-WmiObject Win32_product | Where {$_.name -eq $appName} | ForEach {
+            $_.Uninstall()
+        }
+    }
+}
+ 
